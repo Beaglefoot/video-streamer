@@ -36,16 +36,20 @@
       }
     ],
     "@typescript-eslint/require-await": "error",
-
-    "no-inner-declarations": "error",
-    "no-lonely-if": "error",
-    "no-magic-numbers": [
+    "@typescript-eslint/no-magic-numbers": [
       "error",
       {
+        "ignoreEnums": true,
+        "ignoreNumericLiteralTypes": true,
+        "ignoreReadonlyClassProperties": true,
         "ignore": [-1, 0, 1],
         "ignoreArrayIndexes": true
       }
     ],
+
+    "no-inner-declarations": "error",
+    "no-lonely-if": "error",
+    "no-magic-numbers": "off",
     "no-shadow-restricted-names": "error",
     "no-unused-expressions": "error",
     "no-unused-vars": "error",
