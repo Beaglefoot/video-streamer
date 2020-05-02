@@ -1,0 +1,61 @@
+{
+  "parser": "@typescript-eslint/parser",
+
+  "parserOptions": {
+    "project": ["./tsconfig.json"],
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
+
+  "env": {
+    "es6": true,
+    "node": true,
+    "jest": true,
+    "browser": true
+  },
+
+  "plugins": ["prettier", "@typescript-eslint"],
+  "extends": ["prettier"],
+
+  "rules": {
+    "prettier/prettier": "error",
+
+    "@typescript-eslint/adjacent-overload-signatures": "error",
+    "@typescript-eslint/await-thenable": "error",
+    "@typescript-eslint/camelcase": "error",
+    "@typescript-eslint/class-name-casing": "error",
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+        "allowExpressions": true,
+        "allowTypedFunctionExpressions": true,
+        "allowHigherOrderFunctions": true
+      }
+    ],
+    "@typescript-eslint/require-await": "error",
+
+    "no-inner-declarations": "error",
+    "no-lonely-if": "error",
+    "no-magic-numbers": [
+      "error",
+      {
+        "ignore": [-1, 0, 1],
+        "ignoreArrayIndexes": true
+      }
+    ],
+    "no-shadow-restricted-names": "error",
+    "no-unused-expressions": "error",
+    "no-unused-vars": "error",
+    "no-useless-return": "error",
+    "no-var": "error",
+    "prefer-arrow-callback": "error",
+    "prefer-const": "error",
+    "prefer-promise-reject-errors": "error",
+    "no-cond-assign": "error",
+    "no-throw-literal": "error",
+    "no-undef": "error"
+  }
+}
