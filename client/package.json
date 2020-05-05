@@ -76,7 +76,9 @@
     "worker-loader": "2.0.0"
   },
   "dependencies": {
+    "@types/react-router-dom": "5.1.5",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-router-dom": "5.1.2"
   }
 }

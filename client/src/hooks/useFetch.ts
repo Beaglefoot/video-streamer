@@ -4,8 +4,8 @@ type TStatus = 'pending' | 'settled';
 
 export interface IFetchStatus<T> {
   status: TStatus;
-  payload: T;
-  error: Error;
+  payload?: T;
+  error?: Error;
 }
 
 export function useFetch<T>(

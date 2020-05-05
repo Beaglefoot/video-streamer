@@ -15,8 +15,6 @@ export function getVideos(dir: string): Promise<string[]> {
           .map(
             (file) =>
               new Promise((resolve, reject) => {
-                console.log('file:', file);
-
                 fs.stat(file, (err, stats) => {
                   if (err) return reject(err);
 

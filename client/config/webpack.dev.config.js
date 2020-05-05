@@ -22,7 +22,8 @@ const devConfig = merge.smart(baseConfig, {
     contentBase: path.join(projectRootDir, 'dist'),
     port,
     inline: true,
-    hot: true
+    hot: true,
+    historyApiFallback: true
   }
 });
 
