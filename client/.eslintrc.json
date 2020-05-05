@@ -23,7 +23,7 @@
   "extends": ["prettier", "plugin:react/recommended"],
 
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": "warn",
 
     "react/prop-types": "off",
 
@@ -50,13 +50,14 @@
         "ignoreArrayIndexes": true
       }
     ],
+    "@typescript-eslint/no-unused-vars": "error",
 
     "no-inner-declarations": "error",
     "no-lonely-if": "error",
     "no-magic-numbers": "off",
     "no-shadow-restricted-names": "error",
     "no-unused-expressions": "error",
-    "no-unused-vars": "error",
+    "no-unused-vars": "off",
     "no-useless-return": "error",
     "no-var": "error",
     "prefer-arrow-callback": "error",

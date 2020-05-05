@@ -7,7 +7,12 @@ const BROWSE_DIR = process.env.BROWSE_DIR || process.argv[2];
 
 export const app = express();
 
-app.get('/api/videos', (req, res) => {
+app.use((_, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+app.get('/api/videos', (_, res) => {
   getVideos(BROWSE_DIR)
     .then((videos) => videos.map((v) => path.relative(BROWSE_DIR, v)))
     .then((videos) => res.send(videos))
