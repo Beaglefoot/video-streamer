@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "precommit": "lint-staged",
-    "build": "NODE_ENV=production webpack --config ./config/webpack.prod.config.js",
-    "dev": "webpack-dev-server --config ./config/webpack.dev.config.js",
+    "build": "env $(cat .env) webpack --config ./config/webpack.prod.config.js",
+    "dev": "env $(cat .env.dev) webpack-dev-server --config ./config/webpack.dev.config.js",
     "analyze": "webpack --config ./config/webpack.analyze.config.js",
     "fix:assets": "prettier --ignore-path .gitignore --write \"**/*.{json,md,scss}\"",
     "fix:code": "yarn lint --fix",

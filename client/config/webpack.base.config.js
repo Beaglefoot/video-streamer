@@ -100,7 +100,11 @@ const baseConfig = {
       template: path.resolve(projectRootDir, 'src/index.html'),
       filename: path.resolve(projectRootDir, 'index.html')
     }),
-    new webpack.WatchIgnorePlugin([/scss\.d\.ts$/])
+    new webpack.WatchIgnorePlugin([/scss\.d\.ts$/]),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      API_ROOT: process.env.API_ROOT
+    })
   ]
 };
 

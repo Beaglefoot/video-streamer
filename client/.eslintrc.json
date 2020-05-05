@@ -19,6 +19,10 @@
     "serviceworker": true
   },
 
+  "globals": {
+    "API_ROOT": "readonly"
+  },
+
   "plugins": ["prettier", "@typescript-eslint", "react", "react-hooks"],
   "extends": ["prettier", "plugin:react/recommended"],
 
