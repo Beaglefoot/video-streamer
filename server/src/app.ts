@@ -4,6 +4,8 @@ import fs from 'fs';
 import { STATUS_CODES } from './statusCodes';
 import { getVideos } from './helpers/getVideos';
 import { getMapFromAbsolutePaths } from './helpers/getMapFromAbsolutePaths';
+import { isVideoPathValid } from './helpers/isVideoPathValid';
+import { KNOWN_MIME_TYPES } from './knownMimeTypes';
 
 const BROWSE_DIR = process.env.BROWSE_DIR || process.argv[2];
 
@@ -29,11 +31,13 @@ app.get('/api/videos', (_, res) => {
 app.get('/api/playback', (req, res) => {
   const videoPath = req.query.videoPath as string;
 
-  if (!videoPath) {
+  if (!videoPath || !isVideoPathValid(videoPath)) {
+    console.log(isVideoPathValid(videoPath));
     res.status(STATUS_CODES['Bad Request']).send(STATUS_CODES[STATUS_CODES['Bad Request']]);
     return;
   }
 
+  const ext = path.extname(videoPath) as keyof typeof KNOWN_MIME_TYPES;
   const absolutePath = path.resolve(BROWSE_DIR, videoPath);
 
   fs.stat(absolutePath, (err, stats) => {
@@ -67,7 +71,7 @@ app.get('/api/playback', (req, res) => {
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
       'Content-Length': chunkSize,
-      'Content-Type': 'video/mp4',
+      'Content-Type': KNOWN_MIME_TYPES[ext],
     });
 
     file.pipe(res);

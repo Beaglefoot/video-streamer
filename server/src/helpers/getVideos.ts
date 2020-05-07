@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { KNOWN_MIME_TYPES } from '../knownMimeTypes';
 
 export function getVideos(dir: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
@@ -27,7 +28,7 @@ export function getVideos(dir: string): Promise<string[]> {
           (files) =>
             files
               .flatMap(({ file, stats }) => {
-                if (stats.isFile() && path.extname(file) === '.mp4') return file;
+                if (stats.isFile() && path.extname(file) in KNOWN_MIME_TYPES) return file;
                 if (stats.isDirectory()) return getVideos(file);
               })
               .filter(Boolean) as (string | Promise<string[]>)[]
