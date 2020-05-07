@@ -23,13 +23,7 @@ const devConfig = merge.smart(baseConfig, {
     port,
     inline: true,
     hot: true,
-    historyApiFallback: true,
-    proxy: [
-      {
-        context: ['/api'],
-        target: process.env.API_ROOT
-      }
-    ]
+    historyApiFallback: true
   }
 });
 

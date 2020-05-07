@@ -16,7 +16,7 @@ export const App: React.FC = () => {
     <VideosContext.Provider value={fetchVideos()}>
       <BrowserRouter>
         <Switch>
-          <Route path="/play/:video" component={PlayVideo} />
+          <Route path="/play" component={PlayVideo} />
           <Route component={VideosList} />
         </Switch>
       </BrowserRouter>

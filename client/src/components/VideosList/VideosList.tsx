@@ -14,9 +14,13 @@ export const VideosList: React.FC = () => {
       {status === 'pending' && <div>Loading...</div>}
       {error && <ErrorText msg="Failed to load videos list" />}
       {videos &&
-        Object.keys(videos).map((v) => (
-          <Link to={`/play/${v}`} key={v} className={styles.link}>
-            {getBasename(v)}
+        Object.keys(videos).map((videoName) => (
+          <Link
+            to={`/play?videoName=${videoName}`}
+            key={videoName}
+            className={styles.link}
+          >
+            {getBasename(videoName)}
           </Link>
         ))}
     </>
