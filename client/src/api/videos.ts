@@ -7,3 +7,7 @@ export interface INameRelativeMap {
 export function fetchVideos(): IFetchStatus<INameRelativeMap> {
   return useFetch(`${API_ROOT}/api/videos`);
 }
+
+export function getPlaybackApiUrl(): URL {
+  return new URL(`${API_ROOT}/api/playback`);
+}

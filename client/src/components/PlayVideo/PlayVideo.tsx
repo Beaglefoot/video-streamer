@@ -2,18 +2,17 @@ import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { VideosContext } from '../App/App';
 import { ErrorText } from '../ErrorText/ErrorText';
+import { getPlaybackApiUrl } from 'src/api/videos';
 
 export const PlayVideo: React.FC = () => {
   let videoName: string;
-  let url: URL;
 
+  const url = getPlaybackApiUrl();
   const { payload: videoPaths, status, error } = useContext(VideosContext);
   const { search } = useLocation();
 
   if (videoPaths) {
     videoName = new URLSearchParams(search).get('videoName');
-    url = new URL(`${API_ROOT}/api/playback`);
-
     url.searchParams.append('videoPath', videoPaths[videoName]);
   }
 
