@@ -23,7 +23,7 @@ export const PlayVideo: React.FC = () => {
       {error && <ErrorText msg="Failed to load video" />}
       {videoPaths && (
         <video id="video-player" controls preload="metadata">
-          <source src={url.toString()} type="video/mp4" />
+          <source src={url.toString()} />
         </video>
       )}
     </React.Fragment>

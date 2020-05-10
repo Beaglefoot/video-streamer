@@ -52,7 +52,6 @@
     "no-magic-numbers": "off",
     "no-shadow-restricted-names": "error",
     "no-unused-expressions": "error",
-    "no-unused-vars": "error",
     "no-useless-return": "error",
     "no-var": "error",
     "prefer-arrow-callback": "error",

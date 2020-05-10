@@ -7,6 +7,6 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "strictNullChecks": true,
-    "baseUrl": "./"
+    "baseUrl": "src"
   }
 }

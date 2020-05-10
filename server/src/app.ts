@@ -2,12 +2,12 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { STATUS_CODES } from './statusCodes';
-import { getVideos } from './helpers/getVideos';
-import { getMapFromAbsolutePaths } from './helpers/getMapFromAbsolutePaths';
 import { isVideoPathValid } from './helpers/isVideoPathValid';
 import { KNOWN_MIME_TYPES } from './knownMimeTypes';
+import { VideoMetaService } from './services/VideoMetaService';
 
 const BROWSE_DIR = process.env.BROWSE_DIR || process.argv[2];
+const videoMetaService = new VideoMetaService(BROWSE_DIR);
 
 export const app = express();
 
@@ -16,16 +16,14 @@ app.use((_, res, next) => {
   next();
 });
 
-app.get('/api/videos', (_, res) => {
-  getVideos(BROWSE_DIR)
-    .then(getMapFromAbsolutePaths(BROWSE_DIR))
-    .then((videos) => res.send(videos))
-    .catch((err) => {
-      res
-        .status(STATUS_CODES['Internal Server Error'])
-        .send(STATUS_CODES[STATUS_CODES['Internal Server Error']]);
-      throw err;
-    });
+app.get('/api/videos', videoMetaService.awaitFinish, (_, res) => {
+  if (videoMetaService.error) {
+    return res
+      .status(STATUS_CODES['Internal Server Error'])
+      .send(STATUS_CODES[STATUS_CODES['Internal Server Error']]);
+  }
+
+  res.send(videoMetaService.map);
 });
 
 app.get('/api/playback', (req, res) => {
