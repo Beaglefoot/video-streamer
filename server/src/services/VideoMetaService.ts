@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import { RequestHandler } from 'express';
 import { KNOWN_MIME_TYPES } from '../knownMimeTypes';
+import { ThumbnailBuilderService } from './ThumbnailBuilderService';
 
 interface INameRelativeMap {
   [name: string]: string;
@@ -20,12 +21,18 @@ export class VideoMetaService {
 
   private emitter: EventEmitter;
   private readonly browseDir: string;
+  private thumbnailBuilderService: ThumbnailBuilderService;
 
   constructor(browseDir: string) {
     this.emitter = new EventEmitter();
     this.emitter.setMaxListeners(MAX_LISTENERS);
     this.browseDir = browseDir;
-    this.initSearch();
+    this.thumbnailBuilderService = new ThumbnailBuilderService();
+    this.initSearch().then(() => {
+      Object.values(this.map).forEach((relativePath) => {
+        this.thumbnailBuilderService.build(path.resolve(browseDir, relativePath));
+      });
+    });
   }
 
   public once(event: TVideoMetaEvents, listener: <T>(arg: T) => void): void {

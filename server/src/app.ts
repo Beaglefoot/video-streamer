@@ -30,7 +30,6 @@ app.get('/api/playback', (req, res) => {
   const videoPath = req.query.videoPath as string;
 
   if (!videoPath || !isVideoPathValid(videoPath)) {
-    console.log(isVideoPathValid(videoPath));
     res.status(STATUS_CODES['Bad Request']).send(STATUS_CODES[STATUS_CODES['Bad Request']]);
     return;
   }
