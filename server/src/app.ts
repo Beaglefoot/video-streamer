@@ -26,8 +26,8 @@ app.get('/api/videos', videoMetaService.awaitFinish, (_, res) => {
   res.send(videoMetaService.map);
 });
 
-app.get('/api/playback', (req, res) => {
-  const videoPath = req.query.videoPath as string;
+app.get('/api/playback/:path', (req, res) => {
+  const videoPath = req.params.path as string;
 
   if (!videoPath || !isPathValid(videoPath)) {
     res.status(STATUS_CODES['Bad Request']).send(STATUS_CODES[STATUS_CODES['Bad Request']]);
@@ -75,8 +75,8 @@ app.get('/api/playback', (req, res) => {
   });
 });
 
-app.get('/api/thumbnail', (req, res) => {
-  const thumbnailPath = req.query.thumbnailPath as string;
+app.get('/api/thumbnail/:path', (req, res) => {
+  const thumbnailPath = req.params.path as string;
 
   if (!thumbnailPath || !isPathValid(thumbnailPath)) {
     console.log('error', thumbnailPath);

@@ -12,13 +12,9 @@ export function fetchVideos(): IFetchStatus<INameRelativeMap> {
 }
 
 export function getPlaybackApiUrl(videoPath: string): URL {
-  const url = new URL(`${API_ROOT}/api/playback`);
-  url.searchParams.append('videoPath', videoPath);
-  return url;
+  return new URL(`${API_ROOT}/api/playback/${videoPath}`);
 }
 
 export function getThumbnailApiUrl(thumbnailPath: string): URL {
-  const url = new URL(`${API_ROOT}/api/thumbnail`);
-  url.searchParams.append('thumbnailPath', thumbnailPath);
-  return url;
+  return new URL(`${API_ROOT}/api/thumbnail/${thumbnailPath}`);
 }

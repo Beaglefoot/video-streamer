@@ -34,6 +34,7 @@ export class VideoMetaService {
 
     this.initSearch()
       .then(this.buildThumbnails)
+      .then(this.encode)
       .then(() => {
         this.status = 'settled';
         this.emitter.emit('finish');
@@ -128,5 +129,12 @@ export class VideoMetaService {
         }
       })
     );
+  };
+
+  private encode = (): void => {
+    for (const meta of Object.values(this.map)) {
+      meta.videoPath = encodeURIComponent(meta.videoPath);
+      meta.thumbnailPath = encodeURIComponent(meta.thumbnailPath);
+    }
   };
 }
