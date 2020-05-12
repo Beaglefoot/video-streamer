@@ -1,10 +1,6 @@
 declare namespace AppScssModule {
   export interface IAppScss {
-    file: string;
-    mappings: string;
-    names: string;
-    sources: string;
-    version: string;
+    container: string;
   }
 }
 

@@ -1,3 +1,25 @@
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
+  background: #19222f;
+}
+
+h1 {
+  color: #ffd460;
+  margin-top: 0;
+}
+
+a {
+  color: #f07b3f;
+  text-decoration: none;
+}
+
+:global {
+  #app {
+    height: 100%;
+  }
 }

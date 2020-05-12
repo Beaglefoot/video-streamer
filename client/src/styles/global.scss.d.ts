@@ -1,11 +1,6 @@
 declare namespace GlobalScssModule {
   export interface IGlobalScss {
-    file: string;
-    mappings: string;
-    names: string;
-    sources: string;
-    sourcesContent: string;
-    version: string;
+    app: string;
   }
 }
 

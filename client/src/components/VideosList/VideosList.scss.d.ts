@@ -1,6 +1,8 @@
 declare namespace VideosListScssModule {
   export interface IVideosListScss {
-    link: string;
+    card: string;
+    container: string;
+    thumbnail: string;
   }
 }
 

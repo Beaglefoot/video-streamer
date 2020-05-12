@@ -1,0 +1,10 @@
+.container {
+  height: 100%;
+  width: min-content;
+  margin: 0 auto;
+  // border: 1px solid gold;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

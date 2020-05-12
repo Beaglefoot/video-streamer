@@ -1,3 +1,20 @@
-.link {
+.card {
   display: block;
+  margin-bottom: 2em;
+}
+
+.thumbnail {
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+  width: 480px;
+  height: 200px;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
