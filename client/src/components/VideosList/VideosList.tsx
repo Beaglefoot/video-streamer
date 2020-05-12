@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ErrorText } from 'src/components/ErrorText/ErrorText';
-import { VideosContext } from 'src/components/App/App';
 import { getBasename } from './getBasename';
 import { getThumbnailApiUrl } from 'src/api/videos';
+import { VideosContext } from 'src/contexts/VideosContext';
 import styles from './VideosList.scss';
 
 export const VideosList: React.FC = () => {

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { VideosContext } from '../App/App';
 import { ErrorText } from '../ErrorText/ErrorText';
 import { getPlaybackApiUrl } from 'src/api/videos';
+import { VideosContext } from 'src/contexts/VideosContext';
 
 export const PlayVideo: React.FC = () => {
   let videoName: string;
