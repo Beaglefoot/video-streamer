@@ -5,7 +5,7 @@ const SECONDS_IN_HOUR = 3600;
 const SECONDS_IN_MINUTE = 60;
 
 export class ThumbnailBuilderService {
-  public async build(absoluteVideoPath: string): Promise<number> {
+  public async build(absoluteVideoPath: string): Promise<string> {
     const outputPath = path.resolve(path.dirname(absoluteVideoPath), 'thumbnail.png');
 
     const fileMeta = await this.getExifFileMeta(absoluteVideoPath);
@@ -37,10 +37,10 @@ export class ThumbnailBuilderService {
       ffmpeg.on('close', (code) => {
         if (code) {
           console.trace('\nError:', error);
-          return reject(code);
+          return reject(error);
         }
 
-        resolve(code);
+        resolve(outputPath);
       });
     });
   }

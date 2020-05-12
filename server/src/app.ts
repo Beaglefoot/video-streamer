@@ -2,9 +2,9 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { STATUS_CODES } from './statusCodes';
-import { isVideoPathValid } from './helpers/isVideoPathValid';
-import { KNOWN_MIME_TYPES } from './knownMimeTypes';
+import { VIDEO_MIME_TYPES } from './enums/videoMimeTypes';
 import { VideoMetaService } from './services/VideoMetaService';
+import { isPathValid } from './helpers/isPathValid';
 
 const BROWSE_DIR = process.env.BROWSE_DIR || process.argv[2];
 const videoMetaService = new VideoMetaService(BROWSE_DIR);
@@ -17,7 +17,7 @@ app.use((_, res, next) => {
 });
 
 app.get('/api/videos', videoMetaService.awaitFinish, (_, res) => {
-  if (videoMetaService.error) {
+  if (videoMetaService.errors.length) {
     return res
       .status(STATUS_CODES['Internal Server Error'])
       .send(STATUS_CODES[STATUS_CODES['Internal Server Error']]);
@@ -29,12 +29,12 @@ app.get('/api/videos', videoMetaService.awaitFinish, (_, res) => {
 app.get('/api/playback', (req, res) => {
   const videoPath = req.query.videoPath as string;
 
-  if (!videoPath || !isVideoPathValid(videoPath)) {
+  if (!videoPath || !isPathValid(videoPath)) {
     res.status(STATUS_CODES['Bad Request']).send(STATUS_CODES[STATUS_CODES['Bad Request']]);
     return;
   }
 
-  const ext = path.extname(videoPath) as keyof typeof KNOWN_MIME_TYPES;
+  const ext = path.extname(videoPath) as keyof typeof VIDEO_MIME_TYPES;
   const absolutePath = path.resolve(BROWSE_DIR, videoPath);
 
   fs.stat(absolutePath, (err, stats) => {
@@ -68,9 +68,21 @@ app.get('/api/playback', (req, res) => {
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
       'Content-Length': chunkSize,
-      'Content-Type': KNOWN_MIME_TYPES[ext],
+      'Content-Type': VIDEO_MIME_TYPES[ext],
     });
 
     file.pipe(res);
   });
+});
+
+app.get('/api/thumbnail', (req, res) => {
+  const thumbnailPath = req.query.thumbnailPath as string;
+
+  if (!thumbnailPath || !isPathValid(thumbnailPath)) {
+    console.log('error', thumbnailPath);
+    res.status(STATUS_CODES['Bad Request']).send(STATUS_CODES[STATUS_CODES['Bad Request']]);
+    return;
+  }
+
+  res.sendFile(path.resolve(BROWSE_DIR, thumbnailPath));
 });

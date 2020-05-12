@@ -2,11 +2,14 @@ import { EventEmitter } from 'events';
 import path from 'path';
 import fs from 'fs';
 import { RequestHandler } from 'express';
-import { KNOWN_MIME_TYPES } from '../knownMimeTypes';
+import { VIDEO_MIME_TYPES } from '../enums/videoMimeTypes';
 import { ThumbnailBuilderService } from './ThumbnailBuilderService';
 
-interface INameRelativeMap {
-  [name: string]: string;
+interface IMetaMap {
+  [name: string]: {
+    videoPath: string;
+    thumbnailPath: string;
+  };
 }
 
 type TVideoMetaEvents = 'finish' | 'found';
@@ -16,8 +19,8 @@ const MAX_LISTENERS = 50;
 
 export class VideoMetaService {
   public status: TStatus = 'settled';
-  public map: INameRelativeMap = {};
-  public error: Error;
+  public map: IMetaMap = {};
+  public errors: Error[] = [];
 
   private emitter: EventEmitter;
   private readonly browseDir: string;
@@ -28,11 +31,13 @@ export class VideoMetaService {
     this.emitter.setMaxListeners(MAX_LISTENERS);
     this.browseDir = browseDir;
     this.thumbnailBuilderService = new ThumbnailBuilderService();
-    this.initSearch().then(() => {
-      Object.values(this.map).forEach((relativePath) => {
-        this.thumbnailBuilderService.build(path.resolve(browseDir, relativePath));
+
+    this.initSearch()
+      .then(this.buildThumbnails)
+      .then(() => {
+        this.status = 'settled';
+        this.emitter.emit('finish');
       });
-    });
   }
 
   public once(event: TVideoMetaEvents, listener: <T>(arg: T) => void): void {
@@ -54,10 +59,7 @@ export class VideoMetaService {
       videos = await this.getVideos(this.browseDir);
       this.map = this.getMapFromAbsolutePaths(videos);
     } catch (err) {
-      this.error = err;
-    } finally {
-      this.status = 'settled';
-      this.emitter.emit('finish');
+      this.errors.push(err);
     }
   }
 
@@ -87,7 +89,7 @@ export class VideoMetaService {
             (files) =>
               files
                 .flatMap(({ file, stats }) => {
-                  if (stats.isFile() && path.extname(file) in KNOWN_MIME_TYPES) return file;
+                  if (stats.isFile() && path.extname(file) in VIDEO_MIME_TYPES) return file;
                   if (stats.isDirectory()) return this.getVideos(file);
                 })
                 .filter(Boolean) as (string | Promise<string[]>)[]
@@ -99,13 +101,32 @@ export class VideoMetaService {
     });
   }
 
-  private getMapFromAbsolutePaths(videos: string[]): INameRelativeMap {
-    const map: INameRelativeMap = {};
+  private getMapFromAbsolutePaths(videos: string[]): IMetaMap {
+    const map: IMetaMap = {};
 
     videos.forEach((v) => {
-      map[path.basename(v)] = path.relative(this.browseDir, v);
+      map[path.basename(v)] = {
+        videoPath: path.relative(this.browseDir, v),
+        thumbnailPath: '',
+      };
     });
 
     return map;
   }
+
+  private buildThumbnails = (): Promise<void[]> => {
+    return Promise.all(
+      Object.keys(this.map).map(async (video) => {
+        try {
+          const thumbnailPath = await this.thumbnailBuilderService.build(
+            path.resolve(this.browseDir, this.map[video].videoPath)
+          );
+
+          this.map[video].thumbnailPath = path.relative(this.browseDir, thumbnailPath);
+        } catch (error) {
+          this.errors.push(error);
+        }
+      })
+    );
+  };
 }

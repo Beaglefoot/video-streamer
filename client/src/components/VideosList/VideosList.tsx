@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ErrorText } from 'src/components/ErrorText/ErrorText';
 import { VideosContext } from 'src/components/App/App';
 import { getBasename } from './getBasename';
+import { getThumbnailApiUrl } from 'src/api/videos';
 import styles from './VideosList.scss';
 
 export const VideosList: React.FC = () => {
@@ -21,6 +22,11 @@ export const VideosList: React.FC = () => {
             className={styles.link}
           >
             {getBasename(videoName)}
+            <img
+              src={getThumbnailApiUrl(
+                videos[videoName].thumbnailPath
+              ).toString()}
+            />
           </Link>
         ))}
     </>

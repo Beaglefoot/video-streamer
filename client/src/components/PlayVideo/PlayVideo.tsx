@@ -6,14 +6,14 @@ import { getPlaybackApiUrl } from 'src/api/videos';
 
 export const PlayVideo: React.FC = () => {
   let videoName: string;
+  let url: URL;
 
-  const url = getPlaybackApiUrl();
-  const { payload: videoPaths, status, error } = useContext(VideosContext);
+  const { payload: videos, status, error } = useContext(VideosContext);
   const { search } = useLocation();
 
-  if (videoPaths) {
+  if (videos) {
     videoName = new URLSearchParams(search).get('videoName');
-    url.searchParams.append('videoPath', videoPaths[videoName]);
+    url = getPlaybackApiUrl(videos[videoName].videoPath);
   }
 
   return (
@@ -21,7 +21,7 @@ export const PlayVideo: React.FC = () => {
       <h1>{videoName}</h1>
       {status === 'pending' && <div>Loading...</div>}
       {error && <ErrorText msg="Failed to load video" />}
-      {videoPaths && (
+      {videos && (
         <video id="video-player" controls preload="metadata">
           <source src={url.toString()} />
         </video>
