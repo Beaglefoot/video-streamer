@@ -6,7 +6,8 @@ const SECONDS_IN_MINUTE = 60;
 
 export class ThumbnailBuilderService {
   public async build(absoluteVideoPath: string): Promise<string> {
-    const outputPath = path.resolve(path.dirname(absoluteVideoPath), 'thumbnail.png');
+    const { name, dir } = path.parse(absoluteVideoPath);
+    const outputPath = path.resolve(dir, name + '.png');
 
     const fileMeta = await this.getExifFileMeta(absoluteVideoPath);
     const duration = this.getDurationFromExif(fileMeta);
