@@ -60,6 +60,7 @@ export class VideoMetaService {
       videos = await this.getVideos(this.browseDir);
       this.map = this.getMapFromAbsolutePaths(videos);
     } catch (err) {
+      console.trace('\nError:', err);
       this.errors.push(err);
     }
   }

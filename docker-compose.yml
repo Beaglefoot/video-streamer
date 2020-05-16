@@ -1,0 +1,14 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      args:
+        - BROWSE_DIR
+    volumes:
+      - ${BROWSE_DIR}:/videos
+    environment:
+      - BROWSE_DIR=/videos
+    ports:
+      - '3000:3000'
