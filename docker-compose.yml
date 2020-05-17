@@ -3,11 +3,10 @@ services:
   api:
     build:
       context: ./server
-      dockerfile: Dockerfile
-      args:
-        - BROWSE_DIR
+      dockerfile: Dockerfile.dev
     volumes:
       - ${BROWSE_DIR}:/videos
+      - ./server/:/app
     environment:
       - BROWSE_DIR=/videos
     ports:

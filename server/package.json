@@ -6,6 +6,7 @@
     "precommit": "lint-staged",
     "build": "tsc",
     "build:watch": "tsc --watch",
+    "serve": "nodemon dist/",
     "clean": "rm -rf dist/*",
     "lint": "eslint src/**/*.ts"
   },
@@ -32,6 +33,7 @@
     "eslint-plugin-prettier": "3.1.3",
     "husky": "4.2.5",
     "lint-staged": "10.2.2",
+    "nodemon": "2.0.4",
     "prettier": "2.0.5",
     "typescript": "3.8.3"
   }

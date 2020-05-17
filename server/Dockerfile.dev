@@ -12,6 +12,6 @@ RUN yarn
 
 COPY . .
 
-RUN yarn build
+ENTRYPOINT [ "bash" ]
 
-CMD [ "node", "dist/" ]
+CMD [ "./build_live.bash" ]
